@@ -29,7 +29,7 @@ public class CartServiceImpl implements CartService{
     cartItems.put(request.getFoodId(), cartItems.getOrDefault(request.getFoodId(), 0) + 1);
         cart.setItems(cartItems);
       cart = cartRepository.save(cart);
-      return converToResponse(cart);
+      return convertToResponse(cart);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class CartServiceImpl implements CartService{
         String loggedInUserId = userService.findByUserId();
       CartEntity entity =  cartRepository.findByUserId(loggedInUserId)
                 .orElse(new CartEntity(null,loggedInUserId, new HashMap<>()));
-      return converToResponse(entity);
+      return convertToResponse(entity);
     }
 
     @Override
@@ -46,7 +46,26 @@ public class CartServiceImpl implements CartService{
         cartRepository.deleteByUserId(loggedInUserId);
     }
 
-    private CartResponse converToResponse(CartEntity cartEntity){
+    @Override
+    public CartResponse removeFromCart(CartRequest cartRequest) {
+        String loggedInUserId = userService.findByUserId();
+      CartEntity entity =  cartRepository.findByUserId(loggedInUserId)
+        .orElseThrow(() -> new RuntimeException("Carrinho não entcontrado"));
+       Map<String, Integer> cartItems = entity.getItems();
+        if( cartItems.containsKey(cartRequest.getFoodId())){
+           int currentQty =  cartItems.get(cartRequest.getFoodId());
+         if(currentQty > 0){
+          cartItems.put(cartRequest.getFoodId(), currentQty - 1 );
+
+         } else {
+             cartItems.remove(cartRequest.getFoodId());
+         }
+         entity = cartRepository.save(entity);
+
+        }
+        return convertToResponse(entity);
+    }
+    private CartResponse convertToResponse(CartEntity cartEntity){
         return CartResponse.builder()
                 .id(cartEntity.getId())
                 .userId(cartEntity.getUserId())
@@ -55,3 +74,13 @@ public class CartServiceImpl implements CartService{
 
     }
 }
+
+
+
+
+
+
+
+    
+
+

@@ -4,6 +4,7 @@ import axios from 'axios'
 export const StoreContext = createContext(null);
 
 export const StoreContextProvider = (props) => {
+     const [token, setToken] = useState("");
 
    const [foodList, setFoodList] = useState([]);
 
@@ -43,16 +44,20 @@ export const StoreContextProvider = (props) => {
       increaseQty,
       decreaseQty,
       quantities,
-      removeFromCart
+      removeFromCart,
+      token,
+      setToken
    };
 
    useEffect(() => {
      async function loadData(){
     
     const data = await fetchFoodList();
-    console.log("Dados recebidos da API:", data)
+    {/* console.log("Dados recebidos da API:", data) */}
     setFoodList(data);
-   
+      if (localStorage.getItem("token")) {
+        setToken(localStorage.getItem("token"));
+      }
       }
       loadData();
    }, []);

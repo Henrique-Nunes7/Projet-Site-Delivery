@@ -9,10 +9,12 @@ import refrigerantes from "./cokeIcon.png";
 import alcolicas from "./beerIcon.png";
 import vegetariana from "./pratovegetariano.png";
 import login from "./Login.jpg";
+import avatar from "./avatar.jpg";
 export const assets = {
   logo,
   cart,
-  login
+  login,
+  avatar
 };
 
 export const categories = [

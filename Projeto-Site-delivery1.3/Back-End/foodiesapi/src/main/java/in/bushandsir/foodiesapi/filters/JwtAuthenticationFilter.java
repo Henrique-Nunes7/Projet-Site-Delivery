@@ -1,6 +1,5 @@
 package in.bushandsir.foodiesapi.filters;
 
-import ch.qos.logback.core.util.StringUtil;
 import in.bushandsir.foodiesapi.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

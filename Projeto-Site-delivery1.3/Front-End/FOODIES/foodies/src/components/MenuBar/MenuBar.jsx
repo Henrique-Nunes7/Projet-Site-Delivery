@@ -8,10 +8,16 @@ StoreContext;
 const MenuBar = () => {
 const [active, setActive] = useState('home');
 
-  const {quantities} = useContext(StoreContext);
+  const {quantities, token, setToken} = useContext(StoreContext);
 
   const uniqueItemsInCart = Object.values(quantities).filter(qty => qty > 0).length;
  const navigate = useNavigate();
+
+ const logout = () => {
+  localStorage.removeItem('token');
+  setToken("");
+  navigate("/");
+ }
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container">
@@ -60,8 +66,51 @@ const [active, setActive] = useState('home');
               </span> 
             </div>
             </Link >
+             
+           
+           { 
+            !token ?( 
+            <>
+
             <button className="btn btn-outline-primary" onClick={() => navigate('/login')}>Login</button>
             <button className="btn btn-outline-success" onClick={() => navigate('/register')}>Registrar-se</button>
+
+
+             </> 
+            ) :(  
+            
+            <div className="dropdown text-end">
+              <a
+                href="#"
+               className="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+               data-bs-toggle="dropdown"
+               aria-expanded="false"
+              
+              >
+             <img src={assets.avatar}
+            alt="Avatar"
+             width={32}
+             height={32} className="avatar" />
+  
+              </a>
+           
+            
+          
+
+        
+          <ul className="dropdown-menu text-small">
+  <li className="dropdown-item d-flex align-items-center cursor-pointer" onClick={() => navigate('/meuspedidos')}>
+    
+    <i className="bi bi-bag me-2"></i> Pedidos
+  </li>
+  <li className="dropdown-item d-flex align-items-center cursor-pointer" onClick={logout}>
+    <i className="bi bi-box-arrow-right me-2"></i> Sair
+  </li>
+</ul>
+            </div>
+
+          ) }
+            
           </div>
         </div>
       </div>

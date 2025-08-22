@@ -11,7 +11,7 @@ Cart
 import PlaceOrder from "./components/pages/PlaceOrder/PlaceOrder";
 import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
-
+import { ToastContainer } from 'react-toastify';
 
 
 const App = () => {
@@ -20,7 +20,7 @@ const App = () => {
   return (
     <div>
       <MenuBar />
-     
+      <ToastContainer />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<Contact />} />
